@@ -10,7 +10,7 @@ export class ProdPipelineStack extends cdk.Stack {
     // Set up the pipeline with GitHub source
     const pipeline = new pipelines.CodePipeline(this, 'ProdPipeline', {
       synth: new pipelines.ShellStep('Synth', {
-        input: pipelines.CodePipelineSource.gitHub('yourusername/yourrepo', 'main'),  // Use your GitHub repository
+        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'master'),  // Use your GitHub repository
         commands: [
           'npm ci',
           'npm run build',

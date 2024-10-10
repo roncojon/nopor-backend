@@ -15,7 +15,7 @@ export class DevPipelineStack extends cdk.Stack {
     // Development Pipeline
     const pipeline = new pipelines.CodePipeline(this, 'DevPipeline', {
       synth: new pipelines.ShellStep('Synth', {
-        input: pipelines.CodePipelineSource.gitHub('yourusername/yourrepo', 'main'),  // Use your GitHub repository
+        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'master'),  // Use your GitHub repository
         commands: [
           'npm ci',
           'npm run build',
