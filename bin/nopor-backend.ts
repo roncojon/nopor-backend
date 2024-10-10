@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { DevPipelineStack2 } from '../lib/pipelines/devPipeline';
+import { DevPipelineStack } from '../lib/pipelines/devPipeline';
 import { ProdPipelineStack } from '../lib/pipelines/prodPipeline';
 
 const app = new cdk.App();
@@ -12,6 +12,6 @@ new ProdPipelineStack(app, 'ProdPipelineStack', {
 });
 
 // Instantiate the development pipeline
-new DevPipelineStack2(app, 'DevPipelineStack2', {
+new DevPipelineStack(app, 'DevPipelineStack', {
   env: { account: '183631301414', region: 'us-west-1' }
 });
