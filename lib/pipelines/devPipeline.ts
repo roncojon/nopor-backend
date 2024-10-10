@@ -24,7 +24,7 @@ export class DevPipelineStack extends cdk.Stack {
 
     // Add the development environment stage
     pipeline.addStage(new NoporBackendStage(this, 'DevStage', {
-      env: { account: '183631301414', region: 'us-west-2' }
+      env: { account: '183631301414', region: 'us-west-1' }
     }));
   }
 }

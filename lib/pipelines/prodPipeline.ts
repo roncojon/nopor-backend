@@ -24,7 +24,7 @@ export class ProdPipelineStack extends cdk.Stack {
 
     // Add stages for production
     pipeline.addStage(new NoporBackendStage(this, 'ProdStage', {
-      env: { account: '183631301414', region: 'us-west-2' }
+      env: { account: '183631301414', region: 'us-west-1' }
     }));
   }
 }
