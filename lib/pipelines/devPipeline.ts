@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import { SecretValue } from 'aws-cdk-lib';
 import { NoporBackendStage } from '../NoporBackendStage';
 
-export class DevPipelineStack extends cdk.Stack {
+export class DevPipelineStack2 extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
