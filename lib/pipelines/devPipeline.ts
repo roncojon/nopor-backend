@@ -11,7 +11,7 @@ export class DevPipelineStack extends cdk.Stack {
     // Development Pipeline
     const pipeline = new pipelines.CodePipeline(this, 'DevPipeline', {
       synth: new pipelines.ShellStep('Synth', {
-        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'master', {
+        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'develop', {
             authentication: SecretValue.secretsManager('GitHubTokenForPipeline')  // Reference the secret by name
           }),
         commands: [
