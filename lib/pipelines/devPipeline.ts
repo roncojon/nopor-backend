@@ -1,21 +1,19 @@
-// lib/pipeline-dev-stack.ts
+import * as pipelines from 'aws-cdk-lib/pipelines';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as codecommit from 'aws-cdk-lib/aws-codecommit';
-import * as pipelines from 'aws-cdk-lib/pipelines';
+import { SecretValue } from 'aws-cdk-lib';
 import { NoporBackendStage } from '../NoporBackendStage';
 
 export class DevPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Use the same CodeCommit repository
-    const repo = codecommit.Repository.fromRepositoryName(this, 'Repo', 'MyCdkRepo');
-
     // Development Pipeline
     const pipeline = new pipelines.CodePipeline(this, 'DevPipeline', {
       synth: new pipelines.ShellStep('Synth', {
-        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'master'),  // Use your GitHub repository
+        input: pipelines.CodePipelineSource.gitHub('roncojon/nopor-backend', 'master', {
+            authentication: SecretValue.secretsManager('GitHubTokenForPipeline')  // Reference the secret by name
+          }),
         commands: [
           'npm ci',
           'npm run build',
