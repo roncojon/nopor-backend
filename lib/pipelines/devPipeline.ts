@@ -15,8 +15,8 @@ export class DevPipelineStack extends cdk.Stack {
             authentication: SecretValue.secretsManager('GitHubTokenForPipeline')  // Reference the secret by name
           }),
         commands: [
-          'npm ci',
-          'npm run build',
+          'yarn install --frozen-lockfile',  // Use Yarn instead of npm
+          'yarn build',  
           'npx cdk synth'
         ]
       }),
