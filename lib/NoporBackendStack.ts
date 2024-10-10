@@ -11,7 +11,7 @@ export class NoporBackendStack extends cdk.Stack {
 
     // The code that defines your stack goes here
     // Use the S3 construct
-    new SimpleS3Bucket(this, 'SimpleS3BucketInstance0Nopor0', 'nopor-bucket-0');
+    new SimpleS3Bucket(this, 'SimpleS3BucketInstance0Nopor0'/* , 'nopor-bucket-0' */);
 
      // DynamoDB table
      new MainDatabase(this, 'SimpleDynamoDbTableInstance0', 'MainDatabase');  // Create DynamoDB table with the name 'MainDatabase'
