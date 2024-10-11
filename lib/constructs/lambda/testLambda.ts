@@ -11,7 +11,8 @@ export class MyLambdaFunction extends Construct {
 
     this.lambdaFunction = new lambda.Function(this, lambdaName, {
       runtime: lambda.Runtime.NODEJS_20_X,
-      code: lambda.Code.fromAsset(path.join(__dirname, './lambdas/createNoporLambdav2')), // Path to your lambda folder
+      // code: lambda.Code.fromAsset(path.join(__dirname, './lambdas/createNoporLambdav2')), // Path to your lambda folder
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambdas/createNoporLambdav2')),
       handler: 'index.handler', // File name and exported function name
     });
   }
