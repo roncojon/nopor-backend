@@ -5,10 +5,10 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 export class MyLambdaFunction extends Construct {
   public readonly lambdaFunction: lambda.Function;
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, lambdaName:string) {
     super(scope, id);
 
-    this.lambdaFunction = new lambda.Function(this, 'MyLambda', {
+    this.lambdaFunction = new lambda.Function(this, lambdaName, {
       runtime: lambda.Runtime.NODEJS_18_X,
       code: lambda.Code.fromInline(`
         exports.handler = async (event) => {
