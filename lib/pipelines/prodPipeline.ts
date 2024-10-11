@@ -8,6 +8,11 @@ export class ProdPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // Create environment variables
+    const environment = {
+      STAGE: 'prod'
+    };
+
     // Set up the pipeline with GitHub source and access token from Secrets Manager
     const pipeline = new pipelines.CodePipeline(this, 'ProdPipeline', {
       synth: new pipelines.ShellStep('Synth', {
@@ -18,7 +23,8 @@ export class ProdPipelineStack extends cdk.Stack {
           'npm ci',
           'npm run build',
           'npx cdk synth'
-        ]
+        ],
+        env: environment
       }),
     });
 

@@ -7,16 +7,16 @@ export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const envSuffix = scope.node.tryGetContext('envSuffix'); // Get the environment suffix
+    // const envSuffix = scope.node.tryGetContext('envSuffix'); // Get the environment suffix
 
     // Create the Lambda function
     const myLambda = new MyLambdaFunction(this, 'MyLambdaFunction');
 
     // Create API Gateway Rest API with a unique name per environment
-    const api = new apigateway.LambdaRestApi(this, `MyApiGateway-${envSuffix}`, {
+    const api = new apigateway.LambdaRestApi(this, `MyApiGateway-${process.env.STAGE}`, {
       handler: myLambda.lambdaFunction,  // Connect API Gateway to the Lambda function
       proxy: false,  // Do not use Lambda proxy integration, manage routes manually
-      restApiName: `MyApiGateway-${envSuffix}`,  // Give the API Gateway a unique name based on the environment
+      restApiName: `MyApiGateway-${process.env.STAGE}`,  // Give the API Gateway a unique name based on the environment
     });
 
     // Define a resource and method for the API

@@ -8,6 +8,11 @@ export class DevPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+     // Create environment variables
+     const environment = {
+      STAGE: 'dev'
+    };
+
     // Development Pipeline
     const pipeline = new pipelines.CodePipeline(this, 'DevPipeline', {
       synth: new pipelines.ShellStep('Synth', {
@@ -18,7 +23,8 @@ export class DevPipelineStack extends cdk.Stack {
           'npm ci',
           'npm run build',
           'npx cdk synth'
-        ]
+        ],
+        env: environment
       }),
     });
 
