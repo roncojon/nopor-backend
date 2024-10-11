@@ -7,13 +7,15 @@ export class MainDatabase extends Construct {
   constructor(scope: Construct, id: string, tableName: string) {
     super(scope, id);
 
-    // Create a DynamoDB table with provisioned capacity
-    this.table = new dynamodb.Table(this, id, {
-      tableName: tableName,
-      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING }, // Define partition key
-      billingMode: dynamodb.BillingMode.PROVISIONED,  // Use provisioned billing mode
-      readCapacity: 25,  // Max out free tier limit for read capacity
-      writeCapacity: 25  // Max out free tier limit for write capacity
+    const envSuffix = scope.node.tryGetContext('envSuffix'); // Use environment suffix
+
+    // Create a DynamoDB table with a dynamic name
+    this.table = new dynamodb.Table(this, 'MainTable', {
+      tableName: `${tableName}-${envSuffix}`,  // Add environment suffix to table name
+      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PROVISIONED,
+      readCapacity: 25,
+      writeCapacity: 25
     });
   }
 }
