@@ -27,5 +27,19 @@ export class MainDatabase extends Construct {
       partitionKey: { name: 'serie', type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
     });
+
+      // GSI for 'lastModified'
+      this.table.addGlobalSecondaryIndex({
+        indexName: 'LastModifiedIndex',
+        partitionKey: { name: 'lastModified', type: dynamodb.AttributeType.STRING },
+        projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
+      });
+
+        // GSI for 'duration'
+        this.table.addGlobalSecondaryIndex({
+          indexName: 'DurationIndex',
+          partitionKey: { name: 'duration', type: dynamodb.AttributeType.NUMBER },
+          projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
+        });
   }
 }
