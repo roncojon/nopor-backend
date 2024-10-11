@@ -7,22 +7,26 @@ export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
+    const envSuffix = scope.node.tryGetContext('envSuffix'); // Get the environment suffix
+
     // Create the Lambda function
     const myLambda = new MyLambdaFunction(this, 'MyLambdaFunction');
 
-    // Create API Gateway Rest API
-    const api = new apigateway.LambdaRestApi(this, 'MyApiGateway', {
+    // Create API Gateway Rest API with a unique name per environment
+    const api = new apigateway.LambdaRestApi(this, `MyApiGateway-${envSuffix}`, {
       handler: myLambda.lambdaFunction,  // Connect API Gateway to the Lambda function
       proxy: false,  // Do not use Lambda proxy integration, manage routes manually
+      restApiName: `MyApiGateway-${envSuffix}`,  // Give the API Gateway a unique name based on the environment
     });
 
     // Define a resource and method for the API
     const items = api.root.addResource('items');
     items.addMethod('GET');  // GET /items - linked to the Lambda
+
+    // Add CORS configuration
     items.addCorsPreflight({
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins (adjust as necessary)
-        allowMethods: ['GET'],  // Allow only GET method (adjust as necessary)
-      });
-      
+      allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins (adjust as necessary)
+      allowMethods: ['GET'],  // Allow only GET method (adjust as necessary)
+    });
   }
 }
