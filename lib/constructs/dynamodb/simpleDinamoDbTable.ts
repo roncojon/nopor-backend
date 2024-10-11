@@ -7,15 +7,18 @@ export class MainDatabase extends Construct {
   constructor(scope: Construct, id: string, tableName: string) {
     super(scope, id);
 
-    // const envSuffix = scope.node.tryGetContext('envSuffix'); // Use environment suffix
-
-    // Create a DynamoDB table with a dynamic name
+    // Create a DynamoDB table with 'videoId' as the partition key
     this.table = new dynamodb.Table(this, 'MainTable', {
-      tableName: `${tableName}-${process.env.STAGE}`,  // Add environment suffix to table name
-      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
-      billingMode: dynamodb.BillingMode.PROVISIONED,
-      readCapacity: 25,
-      writeCapacity: 25
+      tableName: `${tableName}-${process.env.STAGE}`,  
+      partitionKey: { name: 'videoId', type: dynamodb.AttributeType.STRING }, 
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,  
+    });
+
+    // First deploy only this GSI
+    this.table.addGlobalSecondaryIndex({
+      indexName: 'TagsIndex',
+      partitionKey: { name: 'tags', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,
     });
   }
 }
