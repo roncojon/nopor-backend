@@ -17,11 +17,11 @@ export class MainDatabase extends Construct {
     // Adding Global Secondary Indexes (GSIs)
 
     // GSI for 'tags' (workaround: assuming 'tags' is stored as a comma-separated string)
-    this.table.addGlobalSecondaryIndex({
-      indexName: 'TagsIndex',
-      partitionKey: { name: 'tags', type: dynamodb.AttributeType.STRING },
-      projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
-    });
+    // this.table.addGlobalSecondaryIndex({
+    //   indexName: 'TagsIndex',
+    //   partitionKey: { name: 'tags', type: dynamodb.AttributeType.STRING },
+    //   projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
+    // });
 
     // // GSI for 'series'
     // this.table.addGlobalSecondaryIndex({
