@@ -8,11 +8,11 @@ export class SimpleS3Bucket extends Construct {
   constructor(scope: Construct, id: string, bucketName: string) {
     super(scope, id);
 
-    const envSuffix = scope.node.tryGetContext('envSuffix'); // Use environment suffix like 'prod' or 'dev'
+    // const envSuffix = scope.node.tryGetContext('envSuffix'); // Use environment suffix like 'prod' or 'dev'
 
     // Create the S3 bucket with a dynamic name
     this.bucket = new s3.Bucket(this, 'MyBucket', {
-      bucketName: `${bucketName}-${envSuffix}`,  // Add environment suffix to bucket name
+      bucketName: `${bucketName}-${process.env.STAGE}`,  // Add environment suffix to bucket name
       versioned: true,
     });
   }

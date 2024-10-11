@@ -9,13 +9,9 @@ export class DevPipelineStack extends cdk.Stack {
     super(scope, id, props);
 
      // Create environment variables
-    //  const environment = {
-    //   REGION: this.region,
-    //   ACCOUNT_ID: this.account,
-    //   STACK_NAME: this.stackName,
-    //   MY_CUSTOM_VAR: 'some-value'
-    // };
-    const stage = 'dev';
+     const environment = {
+      STAGE: 'dev'
+    };
 
     // Development Pipeline
     const pipeline = new pipelines.CodePipeline(this, 'DevPipeline', {
@@ -28,11 +24,12 @@ export class DevPipelineStack extends cdk.Stack {
           'npm run build',
           'npx cdk synth'
         ],
+        env: environment
       }),
     });
 
     // Add the development environment stage
-    pipeline.addStage(new NoporBackendStage(this, 'DevStage', stage, {
+    pipeline.addStage(new NoporBackendStage(this, 'DevStage', {
       env: { account: '183631301414', region: 'us-west-1' }
     }));
   }
