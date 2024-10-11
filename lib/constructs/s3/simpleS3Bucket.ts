@@ -13,7 +13,7 @@ export class SimpleS3Bucket extends Construct {
     // Create the S3 bucket with a dynamic name
     this.bucket = new s3.Bucket(this, 'MyBucket', {
       bucketName: bucketName,  // Add environment suffix to bucket name
-      versioned: true,
+      versioned: false,
     });
   }
 }
