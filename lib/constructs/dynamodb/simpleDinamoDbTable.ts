@@ -9,9 +9,9 @@ export class MainDatabase extends Construct {
 
     // Create a DynamoDB table with 'videoId' as the partition key
     this.table = new dynamodb.Table(this, 'MainTable', {
-      tableName: tableName,  
-      partitionKey: { name: 'videoId', type: dynamodb.AttributeType.STRING }, 
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,  
+      tableName: tableName,
+      partitionKey: { name: 'videoId', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
 
     // First deploy only this GSI
@@ -19,6 +19,13 @@ export class MainDatabase extends Construct {
       indexName: 'TagsIndex',
       partitionKey: { name: 'tags', type: dynamodb.AttributeType.STRING },
       projectionType: dynamodb.ProjectionType.ALL,
+    });
+
+    // GSI for 'serie'
+    this.table.addGlobalSecondaryIndex({
+      indexName: 'SerieIndex',
+      partitionKey: { name: 'serie', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
     });
   }
 }
