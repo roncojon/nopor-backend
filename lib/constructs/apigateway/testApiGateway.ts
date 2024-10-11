@@ -4,19 +4,19 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { MyLambdaFunction } from '../lambda/testLambda';
 
 export class MyApiGateway extends Construct {
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, apiName:string) {
     super(scope, id);
 
     // const envSuffix = scope.node.tryGetContext('envSuffix'); // Get the environment suffix
 
     // Create the Lambda function
-    const myLambda = new MyLambdaFunction(this, 'MyLambdaFunction');
+    const myLambda = new MyLambdaFunction(this, 'LambdaNoporv2Instance0', 'createNoporv2');
 
     // Create API Gateway Rest API with a unique name per environment
-    const api = new apigateway.LambdaRestApi(this, `MyApiGateway-${process.env.STAGE}`, {
+    const api = new apigateway.LambdaRestApi(this, apiName, {
       handler: myLambda.lambdaFunction,  // Connect API Gateway to the Lambda function
       proxy: false,  // Do not use Lambda proxy integration, manage routes manually
-      restApiName: `MyApiGateway-${process.env.STAGE}`,  // Give the API Gateway a unique name based on the environment
+      restApiName: apiName,  // Give the API Gateway a unique name based on the environment
     });
 
     // Define a resource and method for the API
