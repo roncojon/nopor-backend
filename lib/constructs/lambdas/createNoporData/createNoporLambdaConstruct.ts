@@ -40,7 +40,7 @@ export class MyLambdaFunction extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X, // or NODEJS_20_X depending on your Node version
       code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createNoporFfmpegV2.zip')), // Path to your zipped Lambda
       handler: 'index.handler', // The handler function inside the zip file
-      memorySize: 3072, // Increase if video processing needs more memory
+      memorySize: 3000, // Increase if video processing needs more memory
       timeout: cdk.Duration.minutes(10), // Adjust timeout for longer video processing tasks
       environment: {
         FFMPEG_PATH: '/var/task/ffmpeg', // Path where the FFmpeg binary will reside inside Lambda
