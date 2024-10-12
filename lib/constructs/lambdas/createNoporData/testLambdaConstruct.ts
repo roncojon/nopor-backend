@@ -4,7 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as path from 'path';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
-export class MyLambdaFunction extends Construct {
+export class TestLambdaFunction extends Construct {
   public readonly lambdaFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, lambdaName: string) {

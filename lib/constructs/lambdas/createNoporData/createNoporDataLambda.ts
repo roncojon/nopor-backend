@@ -5,10 +5,10 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import * as path from 'path';
 
-export class MyLambdaFunction extends Construct {
+export class CreateNoporDataLambda extends Construct {
   public readonly lambdaFunction: lambda.Function;
 
-  constructor(scope: Construct, id: string, stage: string) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     // Define your S3 bucket (assuming it's already created in the CDK or imported)

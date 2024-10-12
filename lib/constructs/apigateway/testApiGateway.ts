@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import { MyLambdaFunction } from '../lambdas/createNoporData/testLambdaConstruct';
+import { TestLambdaFunction } from '../lambdas/createNoporData/testLambdaConstruct';
 
 export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string, apiName:string) {
@@ -10,7 +10,7 @@ export class MyApiGateway extends Construct {
     // const envSuffix = scope.node.tryGetContext('envSuffix'); // Get the environment suffix
 
     // Create the Lambda function
-    const myLambda = new MyLambdaFunction(this, 'LambdaNoporv2Instance0', 'createNoporv2');
+    const myLambda = new TestLambdaFunction(this, 'LambdaNoporv2Instance0', 'createNoporv2');
 
     // Create API Gateway Rest API with a unique name per environment
     const api = new apigateway.LambdaRestApi(this, apiName, {
