@@ -4,4 +4,4 @@ exports.handler = async (event: any) => {
       body: JSON.stringify({ message: 'Hello from Lambda!' }),
     };
   };
-  
+   
