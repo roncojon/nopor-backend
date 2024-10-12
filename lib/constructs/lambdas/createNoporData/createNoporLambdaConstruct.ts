@@ -38,7 +38,7 @@ export class MyLambdaFunction extends Construct {
 
     this.lambdaFunction = new lambda.Function(this, 'MyLambdaFunction', {
       runtime: lambda.Runtime.NODEJS_18_X, // or NODEJS_20_X depending on your Node version
-      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/createNoporFfmpegV2.zip')), // Path to your zipped Lambda
+      code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createNoporFfmpegV2.zip')), // Path to your zipped Lambda
       handler: 'index.handler', // The handler function inside the zip file
       memorySize: 3072, // Increase if video processing needs more memory
       timeout: cdk.Duration.minutes(10), // Adjust timeout for longer video processing tasks
