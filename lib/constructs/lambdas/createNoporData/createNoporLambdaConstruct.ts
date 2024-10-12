@@ -17,10 +17,10 @@ export class MyLambdaFunction extends Construct {
     //   handler: 'index.handler', // File name and exported function name
     // });
     this.lambdaFunction = new NodejsFunction(this, 'MyLambdaFunction', {
-      entry: path.join(__dirname, './lambdas/createNoporLambdav2/index.js'), // or index.ts for TypeScript
+      entry: path.join(__dirname, 'index.ts'), // or index.ts for TypeScript
       // entry: path.join(__dirname, '../../lambdas/createNoporLambdav2/index.js'), // or index.ts for TypeScript
       handler: 'handler', // the exported handler function
-      runtime: lambda.Runtime.NODEJS_18_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
     });
   }
 }
