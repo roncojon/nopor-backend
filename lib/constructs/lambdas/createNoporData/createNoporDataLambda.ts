@@ -38,5 +38,8 @@ export class CreateNoporDataLambda extends Construct {
       new s3n.LambdaDestination(this.lambdaFunction),
       { prefix: 'MainVideos/' } // Only trigger on objects within the MainVideos/ folder
     );
+
+    // Grant the Lambda function permission to read and write to the S3 bucket
+    bucket.grantReadWrite(this.lambdaFunction);
   }
 }
