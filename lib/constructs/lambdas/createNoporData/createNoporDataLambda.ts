@@ -24,6 +24,8 @@ export class CreateNoporDataLambda extends Construct {
       code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createNoporFfmpegV2.zip')), // Path to your zipped Lambda
       handler: 'index.handler', // The handler function inside the zip
       environment: {
+        STAGE: process.env.stage || 'dev', // Pass stage as an environment variable
+        BUCKET_NAME: process.env.BUCKET_NAME || 'nopor-bucket-0-dev', // Pass the bucket name as an environment variable
         FFMPEG_PATH: '/var/task/ffmpeg', // Path where the FFmpeg binary will reside inside Lambda
       },
       memorySize: 3000, // Increase memory size if necessary for video processing
