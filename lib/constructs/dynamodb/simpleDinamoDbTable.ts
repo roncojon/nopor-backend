@@ -21,12 +21,12 @@ export class MainDatabase extends Construct {
       projectionType: dynamodb.ProjectionType.ALL,
     });
 
-    // // GSI for 'serie'
-    // this.table.addGlobalSecondaryIndex({
-    //   indexName: 'SerieIndex',
-    //   partitionKey: { name: 'serie', type: dynamodb.AttributeType.STRING },
-    //   projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
-    // });
+    // GSI for 'serie'
+    this.table.addGlobalSecondaryIndex({
+      indexName: 'SerieIndex',
+      partitionKey: { name: 'serie', type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.ALL,  // Projects all attributes
+    });
 
     //   // GSI for 'lastModified'
     //   this.table.addGlobalSecondaryIndex({
