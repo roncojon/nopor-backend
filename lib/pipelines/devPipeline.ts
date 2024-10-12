@@ -10,7 +10,8 @@ export class DevPipelineStack extends cdk.Stack {
 
      // Create environment variables
      const environment = {
-      STAGE: 'dev'
+      STAGE: 'dev',
+      BUCKET_NAME: `nopor-bucket-0-dev`
     };
 
     // Development Pipeline
