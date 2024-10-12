@@ -21,6 +21,7 @@ export class CreateNoporDataLambda extends Construct {
     // Create the Lambda function
     this.lambdaFunction = new lambda.Function(this, 'MyLambdaFunction', {
       runtime: lambda.Runtime.NODEJS_18_X, // or NODEJS_20_X depending on your Node version
+      architecture: lambda.Architecture.ARM_64, // Set the architecture to arm64
       code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createNnoporFfmpegV21.zip')), // Path to your zipped Lambda
       handler: 'index.handler', // The handler function inside the zip
       environment: {
