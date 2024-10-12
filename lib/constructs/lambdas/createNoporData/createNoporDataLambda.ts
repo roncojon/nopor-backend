@@ -21,7 +21,7 @@ export class CreateNoporDataLambda extends Construct {
     // Create the Lambda function
     this.lambdaFunction = new lambda.Function(this, 'MyLambdaFunction', {
       runtime: lambda.Runtime.NODEJS_18_X, // or NODEJS_20_X depending on your Node version
-      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/my-lambda.zip')), // Path to your zipped Lambda
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/createNoporFfmpegV2.zip')), // Path to your zipped Lambda
       handler: 'index.handler', // The handler function inside the zip
       environment: {
         FFMPEG_PATH: '/var/task/ffmpeg', // Path where the FFmpeg binary will reside inside Lambda
