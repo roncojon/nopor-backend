@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import { MyLambdaFunction } from '../lambdas/createNoporData/createNoporLambdaConstruct';
+import { MyLambdaFunction } from '../lambdas/createNoporData/testLambdaConstruct';
 
 export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string, apiName:string) {
