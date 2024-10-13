@@ -14,6 +14,15 @@ export class SimpleS3Bucket extends Construct {
     this.bucket = new s3.Bucket(this, 'MyBucket', {
       bucketName: bucketName,  // Add environment suffix to bucket name
       versioned: false,
+      cors: [
+        {
+          allowedOrigins: ['*'],
+          allowedMethods: [s3.HttpMethods.PUT, s3.HttpMethods.POST, s3.HttpMethods.GET],
+          allowedHeaders: ['*'],
+          exposedHeaders: ['ETag'],
+          maxAge: 3000,
+        },
+      ],
     });
   }
 }
