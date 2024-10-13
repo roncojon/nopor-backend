@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import { SimpleS3Bucket } from './constructs/s3/simpleS3Bucket';
 import { MainDatabase } from './constructs/dynamodb/simpleDinamoDbTable';
 import { MyApiGateway } from './constructs/apigateway/testApiGateway';
-import { CreateNoporDataLambda } from './constructs/lambdas/createNoporData/createNoporDataLambda';
+import { CreatePreviewAndThumbnail } from './constructs/lambdas/createNoporData/createPreviewAndThumbnail';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class NoporBackendStack extends cdk.Stack {
@@ -21,7 +21,7 @@ export class NoporBackendStack extends cdk.Stack {
       // Deploy the API Gateway with Lambda
     new MyApiGateway(this, `ApiGatewayInstance0`, `NoporApiGateway-${STAGE}`);
     
-    new CreateNoporDataLambda(this, 'CreateNoporDataLambdaInstance0' )
+    new CreatePreviewAndThumbnail(this, 'CreateNoporDataLambdaInstance0' )
     // example resource
     // const queue = new sqs.Queue(this, 'NoporBackendQueue', {
     //   visibilityTimeout: cdk.Duration.seconds(300)
