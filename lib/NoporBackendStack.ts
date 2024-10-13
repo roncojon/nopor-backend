@@ -10,7 +10,7 @@ export class NoporBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     const STAGE = process.env.STAGE || "dev";
-
+    const BUCKET_NAME = process.env.BUCKET_NAME || "nopor-bucket-0-dev";
     // The code that defines your stack goes here
     // Use the S3 construct
     new SimpleS3Bucket(this, 'S3BucketInstance0', `nopor-bucket-0-${STAGE}`);
@@ -19,7 +19,7 @@ export class NoporBackendStack extends cdk.Stack {
      new MainDatabase(this, 'DynamoDbTableInstance0', `MainDatabase-${STAGE}`);  // Create DynamoDB table with the name 'MainDatabase'
      
       // Deploy the API Gateway with Lambda
-    new MyApiGateway(this, `ApiGatewayInstance0`, `NoporApiGateway-${STAGE}`);
+    new MyApiGateway(this, `ApiGatewayInstance0`, `NoporApiGateway-${STAGE}`, BUCKET_NAME);
     
     new CreatePreviewAndThumbnail(this, 'CreateNoporDataLambdaInstance0' )
     // example resource
