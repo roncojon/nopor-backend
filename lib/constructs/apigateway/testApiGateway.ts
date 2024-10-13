@@ -6,7 +6,7 @@ import { TestLambdaFunction } from '../lambdas/test/testLambdaConstruct';
 import { PresignedUrlLambdaStack } from '../lambdas/createNoporData/returnPresignedUrlS3Lambda';
 
 export class MyApiGateway extends Construct {
-  constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  // Add bucketName as a parameter
+  constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  
     super(scope, id);
 
     // Existing Lambda function for the /items endpoint
@@ -26,6 +26,7 @@ export class MyApiGateway extends Construct {
     items.addCorsPreflight({
       allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
       allowMethods: ['GET'],  // Allow only GET method
+      allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
     });
 
     // New Lambda function for the /get-presigned-url endpoint
@@ -46,7 +47,9 @@ export class MyApiGateway extends Construct {
     // Add CORS configuration for /get-presigned-url
     getPresignedUrlResource.addCorsPreflight({
       allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
-      allowMethods: ['POST'],  // Allow only POST method
+      allowMethods: ['POST', 'OPTIONS'],  // Allow POST and preflight OPTIONS method
+      allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
+      allowCredentials: true,  // If you need credentials (e.g., cookies, tokens) to be passed
     });
   }
 }
