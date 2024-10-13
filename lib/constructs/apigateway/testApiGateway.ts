@@ -1,12 +1,12 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as iam from 'aws-cdk-lib/aws-iam'; // Import IAM for permissions
 import { TestLambdaFunction } from '../lambdas/test/testLambdaConstruct';
 import { PresignedUrlLambdaStack } from '../lambdas/createNoporData/returnPresignedUrlS3Lambda';
-// import { PresignedUrlLambdaStack } from './presignedUrlLambdaStack'; // Import your Presigned URL Lambda Stack
 
 export class MyApiGateway extends Construct {
-  constructor(scope: Construct, id: string, apiName: string) {
+  constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  // Add bucketName as a parameter
     super(scope, id);
 
     // Existing Lambda function for the /items endpoint
@@ -30,6 +30,12 @@ export class MyApiGateway extends Construct {
 
     // New Lambda function for the /get-presigned-url endpoint
     const presignedUrlLambdaStack = new PresignedUrlLambdaStack(this, 'PresignedUrlLambdaStack');
+
+    // Add IAM permissions to the Lambda role to allow S3 access
+    presignedUrlLambdaStack.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['s3:PutObject'],
+      resources: [`arn:aws:s3:::${bucketName}/MainVideos/*`],  // Replace bucketName with your actual bucket name
+    }));
 
     // Define a new resource for /get-presigned-url
     const getPresignedUrlResource = api.root.addResource('get-presigned-url');
