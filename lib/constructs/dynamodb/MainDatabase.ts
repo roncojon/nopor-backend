@@ -20,7 +20,7 @@ export class MainDatabase extends Construct {
     super(scope, id);
 
     // Create a DynamoDB table with 'videoId' as the partition key
-    this.table = new dynamodb.Table(this, 'MainDatabase', {
+    this.table = new dynamodb.Table(this, 'MainTable', {
       tableName: tableName,
       partitionKey: { name: 'videoId', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
