@@ -27,6 +27,7 @@ export class CreatePreviewAndThumbnail extends Construct {
       environment: {
         STAGE: process.env.STAGE || 'dev', // Pass stage as an environment variable
         BUCKET_NAME: process.env.BUCKET_NAME || 'nopor-bucket-0-dev', // Pass the bucket name as an environment variable
+        MAIN_TABLE_NAME: process.env.MAIN_TABLE_NAME || 'MainDatabase-dev', // Pass the DynamoDB table name as an environment variable
         FFMPEG_PATH: '/var/task/ffmpeg', // Path where the FFmpeg binary will reside inside Lambda
       },
       memorySize: 3000, // Increase memory size if necessary for video processing
