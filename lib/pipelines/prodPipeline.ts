@@ -11,7 +11,8 @@ export class ProdPipelineStack extends cdk.Stack {
     // Create environment variables
     const environment = {
       STAGE: 'prod',
-      BUCKET_NAME: `nopor-bucket-0-prod`
+      BUCKET_NAME: `nopor-bucket-0-prod`,
+      MAIN_TABLE_NAME: 'MainTable-prod'
     };
 
     // Set up the pipeline with GitHub source and access token from Secrets Manager
