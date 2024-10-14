@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';  // Import DynamoDB
 import * as path from 'path';
 
 export class CreatePreviewAndThumbnail extends Construct {
@@ -18,6 +19,9 @@ export class CreatePreviewAndThumbnail extends Construct {
       process.env.BUCKET_NAME || 'nopor-bucket-0-dev' // Replace with your actual bucket name
     );
 
+    // Reference the DynamoDB table
+    const mainTable = dynamodb.Table.fromTableName(this, 'MainTable', process.env.MAIN_TABLE_NAME || 'MainTable-dev');
+
     // Create the Lambda function
     this.lambdaFunction = new lambda.Function(this, 'MyLambdaFunction', {
       runtime: lambda.Runtime.NODEJS_18_X, // or NODEJS_20_X depending on your Node version
@@ -27,7 +31,7 @@ export class CreatePreviewAndThumbnail extends Construct {
       environment: {
         STAGE: process.env.STAGE || 'dev', // Pass stage as an environment variable
         BUCKET_NAME: process.env.BUCKET_NAME || 'nopor-bucket-0-dev', // Pass the bucket name as an environment variable
-        MAIN_TABLE_NAME: process.env.MAIN_TABLE_NAME || 'MainDatabase-dev', // Pass the DynamoDB table name as an environment variable
+        MAIN_TABLE_NAME: process.env.MAIN_TABLE_NAME || 'MainTable-dev',
         FFMPEG_PATH: '/var/task/ffmpeg', // Path where the FFmpeg binary will reside inside Lambda
       },
       memorySize: 3000, // Increase memory size if necessary for video processing
@@ -43,5 +47,10 @@ export class CreatePreviewAndThumbnail extends Construct {
 
     // Grant the Lambda function permission to read and write to the S3 bucket
     bucket.grantReadWrite(this.lambdaFunction);
+
+    // Grant the Lambda function permission to read and write to the DynamoDB table
+    mainTable.grantReadWriteData(this.lambdaFunction);
+    // If you only need GetItem permissions, you could use:
+    // mainTable.grantReadData(this.lambdaFunction);
   }
 }
