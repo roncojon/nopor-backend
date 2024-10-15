@@ -13,7 +13,8 @@ export class CreateSerie extends Construct {
     this.lambdaFunction = new lambda.Function(this, 'UploadSeriesLambda', {
       runtime: lambda.Runtime.NODEJS_14_X,
       handler: 'uploadSeries.handler',  // Adjust if your handler is in a different file
-      code: lambda.Code.fromAsset('lambda'),  // Directory where your lambda code lives
+      // code: lambda.Code.fromAsset('lambda'),  // Directory where your lambda code lives
+      code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createSerie.zip')), // Path to your zipped Lambda
       environment: {
         BUCKET_NAME: bucketName,
         TABLE_NAME: 'SerieDatabase',  // Adjust to the actual table name
