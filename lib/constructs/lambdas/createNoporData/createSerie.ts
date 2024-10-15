@@ -17,7 +17,7 @@ export class CreateSerie extends Construct {
       code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createSerie.zip')), // Path to your zipped Lambda
       environment: {
         BUCKET_NAME: bucketName,
-        TABLE_NAME: 'SerieDatabase',  // Adjust to the actual table name
+        SERIE_TABLE_NAME: process.env.SERIE_TABLE_NAME || 'SerieDatabase-dev',
       },
       memorySize: 1024,
       timeout: cdk.Duration.minutes(3),
