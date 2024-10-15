@@ -4,6 +4,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam'; // Import IAM for permissions
 import { TestLambdaFunction } from '../lambdas/test/testLambdaConstruct';
 import { PresignedUrlLambdaStack } from '../lambdas/createNoporData/returnPresignedUrlS3Lambda';
+import { CreateSerie } from '../lambdas/createSerie';
 
 export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  
@@ -50,6 +51,23 @@ export class MyApiGateway extends Construct {
       allowMethods: ['POST', 'OPTIONS'],  // Allow POST and preflight OPTIONS method
       allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
       allowCredentials: true,  // If you need credentials (e.g., cookies, tokens) to be passed
+    });
+
+    const createSerieLambda = new CreateSerie(this, 'CreateSerieLambda', bucketName);
+
+    createSerieLambda.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['s3:PutObject'],
+      resources: [`arn:aws:s3:::${bucketName}/Series/*`],  // Replace bucketName with your actual bucket name
+    }));
+
+    // Add a POST method for the /series endpoint
+    const seriesResource = api.root.addResource('series');
+    
+    // Reference the lambdaFunction property inside the CreateSerie construct
+    seriesResource.addMethod('POST', new apigateway.LambdaIntegration(createSerieLambda.lambdaFunction), {
+      requestParameters: {
+        'method.request.header.Content-Type': true,  // Ensure content-type is provided
+      },
     });
   }
 }
