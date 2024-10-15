@@ -12,7 +12,8 @@ export class ProdPipelineStack extends cdk.Stack {
     const environment = {
       STAGE: 'prod',
       BUCKET_NAME: `nopor-bucket-0-prod`,
-      MAIN_TABLE_NAME: 'MainDatabase-prod'
+      MAIN_TABLE_NAME: 'MainDatabase-prod',
+      SERIE_TABLE_NAME: 'SerieDatabase-prod'
     };
 
     // Set up the pipeline with GitHub source and access token from Secrets Manager

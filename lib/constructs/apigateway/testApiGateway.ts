@@ -4,7 +4,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam'; // Import IAM for permissions
 import { TestLambdaFunction } from '../lambdas/test/testLambdaConstruct';
 import { PresignedUrlLambdaStack } from '../lambdas/createNoporData/returnPresignedUrlS3Lambda';
-import { CreateSerie } from '../lambdas/createSerie';
+import { CreateSerie } from '../lambdas/createNoporData/createSerie';
 
 export class MyApiGateway extends Construct {
   constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  
