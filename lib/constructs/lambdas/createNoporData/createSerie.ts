@@ -11,8 +11,8 @@ export class CreateSerie extends Construct {
 
     // Create Lambda function for handling the upload
     this.lambdaFunction = new lambda.Function(this, 'UploadSeriesLambda', {
-      runtime: lambda.Runtime.NODEJS_14_X,
-      handler: 'uploadSeries.handler',  // Adjust if your handler is in a different file
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',  // Adjust if your handler is in a different file
       // code: lambda.Code.fromAsset('lambda'),  // Directory where your lambda code lives
       code: lambda.Code.fromAsset(path.join(__dirname, '../createNoporData/assets/createSerie.zip')), // Path to your zipped Lambda
       environment: {
@@ -20,7 +20,7 @@ export class CreateSerie extends Construct {
         TABLE_NAME: 'SerieDatabase',  // Adjust to the actual table name
       },
       memorySize: 1024,
-      timeout: cdk.Duration.seconds(300),
+      timeout: cdk.Duration.minutes(3),
     });
   }
 }
