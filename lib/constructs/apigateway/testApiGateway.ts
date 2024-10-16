@@ -1,4 +1,4 @@
-import * as cdk from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib'; 
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam'; // Import IAM for permissions
@@ -55,9 +55,16 @@ export class MyApiGateway extends Construct {
 
     const createSerieLambda = new CreateSerie(this, 'CreateSerieLambda', bucketName);
 
+    // Add S3 permissions
     createSerieLambda.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
       actions: ['s3:PutObject'],
       resources: [`arn:aws:s3:::${bucketName}/Series/*`],  // Replace bucketName with your actual bucket name
+    }));
+
+    // Add DynamoDB permissions (Fix for the AccessDeniedException)
+    createSerieLambda.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['dynamodb:PutItem'],
+      resources: [`arn:aws:dynamodb:us-west-1:183631301414:table/SerieDatabase-dev`],  // DynamoDB Table ARN
     }));
 
     // Add a POST method for the /series endpoint
@@ -70,12 +77,12 @@ export class MyApiGateway extends Construct {
       },
     });
 
-      // Add CORS configuration for /get-presigned-url
-      seriesResource.addCorsPreflight({
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
-        allowMethods: ['POST', 'OPTIONS'],  // Allow POST and preflight OPTIONS method
-        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
-        allowCredentials: true,  // If you need credentials (e.g., cookies, tokens) to be passed
-      });
+    // Add CORS configuration for /series
+    seriesResource.addCorsPreflight({
+      allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
+      allowMethods: ['POST', 'OPTIONS'],  // Allow POST and preflight OPTIONS method
+      allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
+      allowCredentials: true,  // If you need credentials (e.g., cookies, tokens) to be passed
+    });
   }
 }
