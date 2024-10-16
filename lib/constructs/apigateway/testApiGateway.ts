@@ -69,5 +69,13 @@ export class MyApiGateway extends Construct {
         'method.request.header.Content-Type': true,  // Ensure content-type is provided
       },
     });
+
+      // Add CORS configuration for /get-presigned-url
+      seriesResource.addCorsPreflight({
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
+        allowMethods: ['POST', 'OPTIONS'],  // Allow POST and preflight OPTIONS method
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
+        allowCredentials: true,  // If you need credentials (e.g., cookies, tokens) to be passed
+      });
   }
 }
