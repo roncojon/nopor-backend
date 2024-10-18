@@ -1,13 +1,14 @@
-import * as cdk from 'aws-cdk-lib'; 
+import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as iam from 'aws-cdk-lib/aws-iam'; // Import IAM for permissions
 import { TestLambdaFunction } from '../lambdas/test/testLambdaConstruct';
 import { PresignedUrlLambdaStack } from '../lambdas/createNoporData/returnPresignedUrlS3Lambda';
 import { CreateSerie } from '../lambdas/createNoporData/createSerie';
+import { ReadSeriesLambdaStack } from '../lambdas/readNoporData/returnSeries';
 
 export class MyApiGateway extends Construct {
-  constructor(scope: Construct, id: string, apiName: string, bucketName: string) {  
+  constructor(scope: Construct, id: string, apiName: string, bucketName: string) {
     super(scope, id);
 
     // Existing Lambda function for the /items endpoint
@@ -32,7 +33,18 @@ export class MyApiGateway extends Construct {
 
     // New Lambda function for the /get-presigned-url endpoint
     const presignedUrlLambdaStack = new PresignedUrlLambdaStack(this, 'PresignedUrlLambdaStack');
+    const readSeriesLambdaStack = new ReadSeriesLambdaStack(this, 'PresignedUrlLambdaStack');
 
+    // Define the /items resource and GET method
+    const getSeriesEndpoint = api.root.addResource('get-series');
+    getSeriesEndpoint.addMethod('GET');  // GET /items - linked to the existing Lambda
+
+    // Add CORS configuration for /items
+    getSeriesEndpoint.addCorsPreflight({
+      allowOrigins: apigateway.Cors.ALL_ORIGINS,  // Allow all origins
+      allowMethods: ['GET'],  // Allow only GET method
+      allowHeaders: apigateway.Cors.DEFAULT_HEADERS,  // Allow default headers
+    });
     // Add IAM permissions to the Lambda role to allow S3 access
     presignedUrlLambdaStack.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
       actions: ['s3:PutObject'],
@@ -69,7 +81,7 @@ export class MyApiGateway extends Construct {
 
     // Add a POST method for the /series endpoint
     const seriesResource = api.root.addResource('series');
-    
+
     // Reference the lambdaFunction property inside the CreateSerie construct
     seriesResource.addMethod('POST', new apigateway.LambdaIntegration(createSerieLambda.lambdaFunction), {
       requestParameters: {

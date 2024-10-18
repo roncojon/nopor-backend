@@ -2,12 +2,16 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as path from 'path';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';  // Import DynamoDB
 
 export class CreateSerie extends Construct {
   public readonly lambdaFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, bucketName: string) {
     super(scope, id);
+
+    // Reference the DynamoDB table
+    const seriesTable = dynamodb.Table.fromTableName(this, 'SeriesTable', "SeriesTable-" + process.env.STAGE || 'SeriesTable-dev');
 
     // Create Lambda function for handling the upload
     this.lambdaFunction = new lambda.Function(this, 'UploadSeriesLambda', {
@@ -22,5 +26,6 @@ export class CreateSerie extends Construct {
       memorySize: 1024,
       timeout: cdk.Duration.minutes(3),
     });
+    seriesTable.grantReadWriteData(this.lambdaFunction);
   }
 }
