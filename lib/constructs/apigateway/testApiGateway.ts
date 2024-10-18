@@ -33,11 +33,11 @@ export class MyApiGateway extends Construct {
 
     // New Lambda function for the /get-presigned-url endpoint
     const presignedUrlLambdaStack = new PresignedUrlLambdaStack(this, 'PresignedUrlLambdaStack');
-    const readSeriesLambdaStack = new ReadSeriesLambdaStack(this, 'PresignedUrlLambdaStack');
+    const readSeriesLambdaStack = new ReadSeriesLambdaStack(this, 'ReadSeriesLambdaStack');
 
     // Define the /items resource and GET method
     const getSeriesEndpoint = api.root.addResource('get-series');
-    getSeriesEndpoint.addMethod('GET');  // GET /items - linked to the existing Lambda
+    getSeriesEndpoint.addMethod('GET', new apigateway.LambdaIntegration(readSeriesLambdaStack.lambdaFunction));  // GET /items - linked to the existing Lambda
 
     // Add CORS configuration for /items
     getSeriesEndpoint.addCorsPreflight({
