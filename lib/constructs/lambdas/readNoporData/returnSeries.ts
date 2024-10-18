@@ -10,7 +10,7 @@ export class ReadSeriesLambdaStack extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const seriesTable = dynamodb.Table.fromTableName(this, 'SeriesTable', "SeriesTable-" + process.env.STAGE || 'SeriesTable-dev');
+    const seriesTable = dynamodb.Table.fromTableName(this, 'SeriesTable', "SerieDatabase-" + process.env.STAGE || 'SerieDatabase-dev');
 
     // Create the Lambda function to generate the pre-signed URL
     this.lambdaFunction = new lambda.Function(this, 'PresignedUrlLambda', {

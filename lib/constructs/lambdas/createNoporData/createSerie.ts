@@ -11,7 +11,7 @@ export class CreateSerie extends Construct {
     super(scope, id);
 
     // Reference the DynamoDB table
-    const seriesTable = dynamodb.Table.fromTableName(this, 'SeriesTable', "SeriesTable-" + process.env.STAGE || 'SeriesTable-dev');
+    const seriesTable = dynamodb.Table.fromTableName(this, 'SeriesTable', "SerieDatabase-" + process.env.STAGE || 'SerieDatabase-dev');
 
     // Create Lambda function for handling the upload
     this.lambdaFunction = new lambda.Function(this, 'UploadSeriesLambda', {
