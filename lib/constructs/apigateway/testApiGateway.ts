@@ -61,11 +61,11 @@ export class MyApiGateway extends Construct {
       resources: [`arn:aws:s3:::${bucketName}/Series/*`],  // Replace bucketName with your actual bucket name
     }));
 
-    // Add DynamoDB permissions (Fix for the AccessDeniedException)
-    createSerieLambda.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
-      actions: ['dynamodb:PutItem'],
-      resources: [`arn:aws:dynamodb:us-west-1:183631301414:table/SerieDatabase-dev`],  // DynamoDB Table ARN
-    }));
+    // // Add DynamoDB permissions (Fix for the AccessDeniedException)
+    // createSerieLambda.lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+    //   actions: ['dynamodb:PutItem'],
+    //   resources: [`arn:aws:dynamodb:us-west-1:183631301414:table/SerieDatabase-dev`],  // DynamoDB Table ARN
+    // }));
 
     // Add a POST method for the /series endpoint
     const seriesResource = api.root.addResource('series');
